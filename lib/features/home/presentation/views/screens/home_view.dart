@@ -1,0 +1,14 @@
+import 'package:elevate_c3_sunday/config/di/di.dart';
+import 'package:elevate_c3_sunday/features/home/presentation/view_models/home_view_model.dart';
+import 'package:flutter/material.dart';
+
+class HomeView extends StatelessWidget {
+  HomeViewModel homeViewModel = getIt.get<HomeViewModel>();
+  HomeView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    homeViewModel.getCategories();
+    return const Placeholder();
+  }
+}

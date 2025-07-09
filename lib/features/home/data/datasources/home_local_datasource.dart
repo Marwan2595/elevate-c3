@@ -1,0 +1,7 @@
+import 'package:elevate_c3_sunday/features/home/domain/models/category_model.dart';
+import 'package:elevate_c3_sunday/features/home/domain/models/product_model.dart';
+
+abstract class HomeLocalDataSource {
+  Future<List<ProductModel>> getProducts({String? categoryId});
+  Future<List<CategoryModel>> getCategories();
+}
