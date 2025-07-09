@@ -1,3 +1,4 @@
+import 'package:elevate_c3_sunday/config/api_result/api_result.dart';
 import 'package:elevate_c3_sunday/features/home/data/datasources/home_local_datasource.dart';
 import 'package:elevate_c3_sunday/features/home/data/datasources/home_remote_datasource.dart';
 import 'package:elevate_c3_sunday/features/home/domain/models/category_model.dart';
@@ -13,9 +14,9 @@ class HomeRepoImpl implements HomeRepoContract {
   HomeRepoImpl(this.homeLocalDataSource, this.homeRemoteDataSource);
 
   @override
-  Future<List<CategoryModel>> getCategories() async {
-    List<CategoryModel> catList = await homeRemoteDataSource.getCategories();
-    return catList;
+  Future<ApiResult<List<CategoryModel>>> getCategories() async {
+    ApiResult<List<CategoryModel>> catResult = await homeRemoteDataSource.getCategories();
+    return catResult;
   }
 
   @override
