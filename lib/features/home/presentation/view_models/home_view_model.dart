@@ -6,45 +6,63 @@ import 'package:elevate_c3_sunday/features/home/presentation/view_models/home_st
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import 'home_events.dart';
+
 @injectable
-class HomeViewModel extends Cubit<HomeState> {
+class HomeViewModel extends Bloc<HomeEvent, HomeState> {
   GetCategoriesUseCase getCategoriesUseCase;
   GetProductsUseCase getProductsUseCase;
 
   HomeViewModel(this.getCategoriesUseCase, this.getProductsUseCase)
-    : super(HomeState());
-
-  Future<void> getHomeData()async{
-    getCategories1();
-    getCategories2();
+    : super(HomeState()) {
+    on<GetCategories1Event>(_getCategories1);
+    on<GetCategories2Event>(_getCategories2);
+    on<GetCategoriesAllEvent>(_getHomeData);
   }
 
+  Future<void> _getHomeData(GetCategoriesAllEvent event, Emitter emit) async {
+    await Future.wait([
+      _getCategories1(GetCategories1Event(), emit),
+      _getCategories2(GetCategories2Event(), emit),
+    ]);
+  }
 
-  Future<void> getCategories1() async {
+  Future<void> _getCategories1(GetCategories1Event event, Emitter emit) async {
     emit(state.copyWith(isLoading1Arg: true));
 
     ApiResult<List<CategoryModel>> catResult1 = await getCategoriesUseCase();
 
-   
     switch (catResult1) {
       case ApiSuccessResult<List<CategoryModel>>():
         emit(
           state.copyWith(isLoading1Arg: false, catList1Arg: catResult1.data),
         );
       case ApiErrorResult<List<CategoryModel>>():
-        emit(state.copyWith(isLoading1Arg: false, catError1Arg: catResult1.errorMessage));
+        emit(
+          state.copyWith(
+            isLoading1Arg: false,
+            catError1Arg: catResult1.errorMessage,
+          ),
+        );
     }
   }
 
-  Future<void> getCategories2() async {
+  Future<void> _getCategories2(GetCategories2Event event, Emitter emit) async {
     emit(state.copyWith(isLoading2Arg: true));
     await Future.delayed(Duration(seconds: 2));
     ApiResult<List<CategoryModel>> catResult2 = await getCategoriesUseCase();
     switch (catResult2) {
       case ApiSuccessResult<List<CategoryModel>>():
-        emit(state.copyWith(isLoading2Arg: false,catList2Arg: catResult2.data));
+        emit(
+          state.copyWith(isLoading2Arg: false, catList2Arg: catResult2.data),
+        );
       case ApiErrorResult<List<CategoryModel>>():
-        emit(state.copyWith(isLoading2Arg: false,catError2Arg: catResult2.errorMessage));
+        emit(
+          state.copyWith(
+            isLoading2Arg: false,
+            catError2Arg: catResult2.errorMessage,
+          ),
+        );
     }
   }
 }

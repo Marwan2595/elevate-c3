@@ -1,5 +1,6 @@
 import 'package:elevate_c3_sunday/config/di/di.dart';
 import 'package:elevate_c3_sunday/features/home/domain/models/category_model.dart';
+import 'package:elevate_c3_sunday/features/home/presentation/view_models/home_events.dart';
 import 'package:elevate_c3_sunday/features/home/presentation/view_models/home_states.dart';
 import 'package:elevate_c3_sunday/features/home/presentation/view_models/home_view_model.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,9 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeViewModel>(
-      create: (context) => homeViewModel..getHomeData(),
+      create: (context) => homeViewModel..add(GetCategoriesAllEvent()),
       child: Scaffold(
-        appBar: AppBar(title: Text("Home Screen")),
+        // appBar: AppBar(title: Text("Home Screen")),
         body: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
