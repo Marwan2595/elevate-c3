@@ -23,7 +23,7 @@ class HomeView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Text("Home Screen"),
+              Text("Home Screen Edit"),
               BlocBuilder<HomeViewModel, HomeState>(
                 builder: (context, state) {
                   return Column(
