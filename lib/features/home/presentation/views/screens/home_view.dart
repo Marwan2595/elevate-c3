@@ -12,7 +12,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeViewModel>(
-      create: (context) => homeViewModel..getCategories(),
+      create: (context) => homeViewModel..getHomeData(),
       child: Scaffold(
         appBar: AppBar(title: Text("Home Screen")),
         body: Padding(
@@ -25,30 +25,54 @@ class HomeView extends StatelessWidget {
               Text("Home Screen"),
               BlocBuilder<HomeViewModel, HomeState>(
                 builder: (context, state) {
-                  switch (state) {
-                    case HomeInitialState():
-                    case HomeLoadingState():
-                      return Center(child: CircularProgressIndicator());
-                    case HomeSuccessState():
-                      return SizedBox(
-                        height: 150,
-                        width: double.infinity,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: state.catList.length,
-                          itemBuilder: (context, index) {
-                            return CategoryCard(catModel: state.catList[index]);
-                          },
-                        ),
-                      );
-                    case HomeErrorState():
-                      return Center(child: Text(state.errorMessage));
-                  }
+                  return Column(
+                    children: [
+                      CategoryListWidget(
+                        isLoading: state.isLoading1,
+                        catList: state.catList1,
+                        errorMsg: state.catError1,
+                      ),
+                      const SizedBox(height: 50,),
+                      CategoryListWidget(
+                        isLoading: state.isLoading2,
+                        catList: state.catList2,
+                        errorMsg: state.catError2,
+                      ),
+                    ],
+                  );
                 },
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CategoryListWidget extends StatelessWidget {
+  CategoryListWidget({
+    super.key,
+    required this.isLoading,
+    required this.catList ,
+    this.errorMsg,
+  });
+  final bool isLoading;
+  final List<CategoryModel> catList;
+  String? errorMsg;
+  @override
+  Widget build(BuildContext context) {
+    if(isLoading) return Center(child:  CircularProgressIndicator(),);
+    if(errorMsg != null)return Center(child:  Text(errorMsg!),);
+    return       SizedBox(
+      height: 150,
+      width: double.infinity,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: catList.length,
+        itemBuilder: (context, index) {
+          return CategoryCard(catModel: catList[index]);
+        },
       ),
     );
   }

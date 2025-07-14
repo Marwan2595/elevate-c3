@@ -12,17 +12,39 @@ class HomeViewModel extends Cubit<HomeState> {
   GetProductsUseCase getProductsUseCase;
 
   HomeViewModel(this.getCategoriesUseCase, this.getProductsUseCase)
-    : super(HomeInitialState());
+    : super(HomeState());
 
-  Future<void> getCategories() async {
-    emit(HomeLoadingState());
+  Future<void> getHomeData()async{
+    getCategories1();
+    getCategories2();
+  }
 
-    ApiResult<List<CategoryModel>> catResult = await getCategoriesUseCase();
-    switch (catResult) {
+
+  Future<void> getCategories1() async {
+    emit(state.copyWith(isLoading1Arg: true));
+
+    ApiResult<List<CategoryModel>> catResult1 = await getCategoriesUseCase();
+
+   
+    switch (catResult1) {
       case ApiSuccessResult<List<CategoryModel>>():
-        emit(HomeSuccessState(catList: catResult.data));
+        emit(
+          state.copyWith(isLoading1Arg: false, catList1Arg: catResult1.data),
+        );
       case ApiErrorResult<List<CategoryModel>>():
-        emit(HomeErrorState(errorMessage: catResult.errorMessage));
+        emit(state.copyWith(isLoading1Arg: false, catError1Arg: catResult1.errorMessage));
+    }
+  }
+
+  Future<void> getCategories2() async {
+    emit(state.copyWith(isLoading2Arg: true));
+    await Future.delayed(Duration(seconds: 2));
+    ApiResult<List<CategoryModel>> catResult2 = await getCategoriesUseCase();
+    switch (catResult2) {
+      case ApiSuccessResult<List<CategoryModel>>():
+        emit(state.copyWith(isLoading2Arg: false,catList2Arg: catResult2.data));
+      case ApiErrorResult<List<CategoryModel>>():
+        emit(state.copyWith(isLoading2Arg: false,catError2Arg: catResult2.errorMessage));
     }
   }
 }
