@@ -20,6 +20,10 @@ class HomeViewModel {
     });
   }
 
+  void loginFunction() {
+    print("===============Login==================");
+  }
+
   void registerFunction() {
     print("===============registerFunction==================");
   }
