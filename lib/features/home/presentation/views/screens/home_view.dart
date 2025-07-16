@@ -16,7 +16,9 @@ class HomeView extends StatelessWidget {
           Text("Text 2"),
           Text("Text 3"),
           Text("Text 4"),
-          Text("25565554")
+          Text("Text 5"),
+          Text("Text 6"),
+          Text("25565554"),
         ],
       ),
     );
