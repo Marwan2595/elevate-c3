@@ -19,4 +19,8 @@ class HomeViewModel {
       print("=================================");
     });
   }
+
+  void loginFunction() {
+    print("===============Login==================");
+  }
 }
