@@ -9,6 +9,6 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     homeViewModel.getCategories();
-    return const Placeholder();
+    return Scaffold(body: Column(children: [Text("25565554")]));
   }
 }
