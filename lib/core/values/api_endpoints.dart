@@ -1,5 +1,5 @@
-class ApiEndpoints {
+abstract class ApiEndpoints {
   static const String baseUrl = 'https://ecommerce.routemisr.com/api/v1/';
   static const String productsEndpoint = 'products';
-  static const String categoriesEndpoint = 'categories';
+  static const String categoriesEndpoint = 'iyuqwteiqwireuy';
 }

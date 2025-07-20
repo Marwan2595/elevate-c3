@@ -21,13 +21,11 @@ class _HomeApiClient implements HomeApiClient {
   Future<ProductsResponse> getProducts({
     int productPerPage = 10,
     int pageNumber = 1,
-    String categoryId = "",
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'limit': productPerPage,
       r'page': pageNumber,
-      r'categoryId': categoryId,
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
@@ -68,7 +66,7 @@ class _HomeApiClient implements HomeApiClient {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'categories',
+            'iyuqwteiqwireuy',
             queryParameters: queryParameters,
             data: _data,
           )

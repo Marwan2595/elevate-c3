@@ -1,3 +1,4 @@
+import 'package:elevate_c3_sunday/config/dio_module/api_result.dart';
 import 'package:elevate_c3_sunday/features/home/api/client/home_api_client.dart';
 import 'package:elevate_c3_sunday/features/home/api/models/response/categories_response.dart';
 import 'package:elevate_c3_sunday/features/home/api/models/response/products_response.dart';
@@ -13,11 +14,15 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   HomeRemoteDataSourceImpl(this.apiClient);
 
   @override
-  Future<List<CategoryModel>> getCategories() async {
-    CategoriesResponse catRes = await apiClient.getCategories();
-    List<CategoryModel> catList =
-        catRes.data?.map((catDTO) => catDTO.toCategoryModel()).toList() ?? [];
-    return catList;
+  Future<ApiResult<List<CategoryModel>>> getCategories() async {
+    try {
+      CategoriesResponse catRes = await apiClient.getCategories();
+      List<CategoryModel> catList =
+          catRes.data?.map((catDTO) => catDTO.toCategoryModel()).toList() ?? [];
+      return ApiSuccessResult<List<CategoryModel>>(catList);
+    } catch (e) {
+      return ApiErrorResult<List<CategoryModel>>(e.toString());
+    }
   }
 
   @override
@@ -29,7 +34,6 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     ProductsResponse productsRes = await apiClient.getProducts(
       pageNumber: pageNumber ?? 1,
       productPerPage: productPerPage ?? 10,
-      categoryId: categoryId ?? "",
     );
     List<ProductModel> catList =
         productsRes.data

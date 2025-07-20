@@ -17,7 +17,6 @@ abstract class HomeApiClient {
   Future<ProductsResponse> getProducts({
     @Query("limit") int productPerPage = 10,
     @Query("page") int pageNumber = 1,
-    @Query("categoryId") String categoryId = "",
   });
 
   @GET(ApiEndpoints.categoriesEndpoint)
