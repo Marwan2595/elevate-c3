@@ -13,7 +13,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<HomeViewModel>(
-      create: (context) => homeViewModel..add(GetCategoriesAllEvent()),
+      create: (context) => homeViewModel..doIntent(GetCategoriesAllEvent()),
       child: Scaffold(
         // appBar: AppBar(title: Text("Home Screen")),
         body: Padding(

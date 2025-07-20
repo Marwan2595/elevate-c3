@@ -9,25 +9,32 @@ import 'package:injectable/injectable.dart';
 import 'home_events.dart';
 
 @injectable
-class HomeViewModel extends Bloc<HomeEvent, HomeState> {
+class HomeViewModel extends Cubit<HomeState> {
   GetCategoriesUseCase getCategoriesUseCase;
   GetProductsUseCase getProductsUseCase;
 
   HomeViewModel(this.getCategoriesUseCase, this.getProductsUseCase)
-    : super(HomeState()) {
-    on<GetCategories1Event>(_getCategories1);
-    on<GetCategories2Event>(_getCategories2);
-    on<GetCategoriesAllEvent>(_getHomeData);
+    : super(HomeState());
+
+  void doIntent(HomeEvent event) async {
+    switch (event) {
+      case GetCategoriesAllEvent():
+        _getHomeData();
+        break;
+      case GetCategories1Event():
+        _getCategories1();
+        break;
+      case GetCategories2Event():
+        _getCategories2();
+        break;
+    }
   }
 
-  Future<void> _getHomeData(GetCategoriesAllEvent event, Emitter emit) async {
-    await Future.wait([
-      _getCategories1(GetCategories1Event(), emit),
-      _getCategories2(GetCategories2Event(), emit),
-    ]);
+  Future<void> _getHomeData() async {
+    await Future.wait([_getCategories1(), _getCategories2()]);
   }
 
-  Future<void> _getCategories1(GetCategories1Event event, Emitter emit) async {
+  Future<void> _getCategories1() async {
     emit(state.copyWith(isLoading1Arg: true));
 
     ApiResult<List<CategoryModel>> catResult1 = await getCategoriesUseCase();
@@ -47,7 +54,7 @@ class HomeViewModel extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  Future<void> _getCategories2(GetCategories2Event event, Emitter emit) async {
+  Future<void> _getCategories2() async {
     emit(state.copyWith(isLoading2Arg: true));
     await Future.delayed(Duration(seconds: 2));
     ApiResult<List<CategoryModel>> catResult2 = await getCategoriesUseCase();
