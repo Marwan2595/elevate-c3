@@ -3,6 +3,7 @@ import 'package:elevate_c3_sunday/features/home/api/client/home_api_client.dart'
 import 'package:elevate_c3_sunday/features/home/api/models/response/categories_response.dart';
 import 'package:elevate_c3_sunday/features/home/api/models/response/products_response.dart';
 import 'package:elevate_c3_sunday/features/home/data/datasources/home_remote_datasource.dart';
+import 'package:elevate_c3_sunday/features/home/data/repos_impl/home_repo_impl.dart';
 import 'package:elevate_c3_sunday/features/home/domain/models/category_model.dart';
 import 'package:elevate_c3_sunday/features/home/domain/models/product_model.dart';
 import 'package:injectable/injectable.dart';
@@ -11,7 +12,6 @@ import 'package:dio/dio.dart';
 @Injectable(as: HomeRemoteDataSource)
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   HomeApiClient apiClient;
-  
 
   HomeRemoteDataSourceImpl(this.apiClient);
 
@@ -20,6 +20,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     List<CategoryModel> catList = [];
     try {
       CategoriesResponse catRes = await apiClient.getCategories();
+
       catList =
           catRes.data?.map((catDTO) => catDTO.toCategoryModel()).toList() ?? [];
       return ApiSuccessResult<List<CategoryModel>>(catList);

@@ -45,7 +45,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i773.HomeApiClient>(() => _i773.HomeApiClient(gh<_i361.Dio>()));
     gh.factory<_i278.HomeRemoteDataSource>(
-      () => _i150.HomeRemoteDataSourceImpl(gh<_i773.HomeApiClient>()),
+      () => _i150.HomeRemoteDataSourceImpl(
+        gh<_i773.HomeApiClient>(),
+        gh<_i386.HomeRepoImpl>(),
+      ),
     );
     gh.factory<_i130.HomeRepoContract>(
       () => _i386.HomeRepoImpl(
