@@ -29,11 +29,11 @@ class HomeView extends StatelessWidget {
                   return Column(
                     children: [
                       CategoryListWidget(
-                        isLoading: state.isLoading1,
-                        catList: state.catList1,
-                        errorMsg: state.catError1,
+                        isLoading: state.catOneStates?.isLoading ?? false,
+                        catList: state.catOneStates?.successData ?? [],
+                        errorMsg: state.catOneStates?.errorMessage,
                       ),
-                      const SizedBox(height: 50,),
+                      const SizedBox(height: 50),
                       CategoryListWidget(
                         isLoading: state.isLoading2,
                         catList: state.catList2,
@@ -55,7 +55,7 @@ class CategoryListWidget extends StatelessWidget {
   CategoryListWidget({
     super.key,
     required this.isLoading,
-    required this.catList ,
+    required this.catList,
     this.errorMsg,
   });
   final bool isLoading;
@@ -63,9 +63,9 @@ class CategoryListWidget extends StatelessWidget {
   String? errorMsg;
   @override
   Widget build(BuildContext context) {
-    if(isLoading) return Center(child:  CircularProgressIndicator(),);
-    if(errorMsg != null)return Center(child:  Text(errorMsg!),);
-    return       SizedBox(
+    if (isLoading) return Center(child: CircularProgressIndicator());
+    if (errorMsg != null) return Center(child: Text(errorMsg!));
+    return SizedBox(
       height: 150,
       width: double.infinity,
       child: ListView.builder(
